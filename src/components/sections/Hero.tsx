@@ -91,7 +91,7 @@ export default function Hero({ title, subtitle }: HeroProps) {
           {/* Title */}
           <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
             <span className="block">{title}</span>
-            <span className="block mt-2 bg-gradient-musical bg-clip-text text-transparent">
+            <span className="block mt-2 pb-2 bg-gradient-musical bg-clip-text text-transparent">
               Through Music
             </span>
           </h1>
