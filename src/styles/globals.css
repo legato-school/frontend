@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased bg-white text-gray-900;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .animate-fade-in-delay {
+    animation: fadeIn 1s ease-in 0.3s both;
+  }
+  
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 1s ease-in 0.6s both;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 3D Card Effect */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .card-3d:hover {
+    transform: translateY(-8px) rotateX(2deg);
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600;
+  }
+
+  /* Animated Gradient Border */
+  @keyframes gradient-rotate {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .gradient-border {
+    position: relative;
+    background: white;
+    border-radius: 1.5rem;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 1.5rem;
+    padding: 2px;
+    background: linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4, #8b5cf6);
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: gradient-rotate 3s linear infinite;
+  }
+
+  /* Animated Background Gradients */
+  .bg-size-200 {
+    background-size: 200% auto;
+  }
+
+  .bg-pos-0 {
+    background-position: 0% center;
+  }
+
+  .bg-pos-100 {
+    background-position: 100% center;
+  }
+
+  /* Shadow Glow Effects */
+  .shadow-glow-lg {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+  }
+}

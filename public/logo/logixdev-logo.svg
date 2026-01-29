@@ -1,0 +1,42 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for "Logix" -->
+    <linearGradient id="logixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8a2be2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow filter for "Dev" -->
+    <filter id="devGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Drop shadow -->
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00d4ff" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background (optional, for logo on light backgrounds) -->
+  <!-- <rect width="200" height="60" fill="none"/> -->
+  
+  <!-- "Logix" text with gradient -->
+  <text x="10" y="40" 
+        font-family="JetBrains Mono, Consolas, Monaco, monospace" 
+        font-size="28" 
+        font-weight="600" 
+        fill="url(#logixGradient)"
+        filter="url(#dropShadow)">Logix</text>
+  
+  <!-- "Dev" text with accent color and glow -->
+  <text x="110" y="40" 
+        font-family="JetBrains Mono, Consolas, Monaco, monospace" 
+        font-size="28" 
+        font-weight="600" 
+        fill="#00d4ff"
+        filter="url(#devGlow)">Dev</text>
+</svg>
