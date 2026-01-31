@@ -63,7 +63,7 @@
 
   /* Gradient Text */
   .gradient-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600;
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500;
   }
 
   /* Animated Gradient Border */
@@ -91,7 +91,7 @@
     inset: -2px;
     border-radius: 1.5rem;
     padding: 2px;
-    background: linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4, #8b5cf6);
+    background: linear-gradient(90deg, #009688, #26a69a, #4db6ac, #009688);
     background-size: 200% 200%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -114,6 +114,6 @@
 
   /* Shadow Glow Effects */
   .shadow-glow-lg {
-    box-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 40px rgba(0, 150, 136, 0.4);
   }
 }
