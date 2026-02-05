@@ -1,11 +1,13 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  // SSR enabled for Amplify deployment
+  output: "standalone",
   trailingSlash: true,
   images: {
     unoptimized: true,
   },
-}
+  reactStrictMode: true,
+};
 
-export default nextConfig
+export default nextConfig;

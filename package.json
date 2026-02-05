@@ -9,7 +9,11 @@
     "build:development": "NODE_ENV=development next build",
     "build:production": "NODE_ENV=production next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepare": "husky"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
