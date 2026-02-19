@@ -1,0 +1,76 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # 1. HANDLE RELEASE LOGIC
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      major: ${{ steps.release.outputs.major }}
+      minor: ${{ steps.release.outputs.minor }}
+      patch: ${{ steps.release.outputs.patch }}
+    steps:
+      - uses: google-github-actions/release-please-action@e4dc86ba9405554aeba3c6bb2d169500e7d3b4ee # v4
+        id: release
+        with:
+          # This assumes your project is a Node/React Native project
+          release-type: node
+          package-name: my-awesome-app
+          # This keeps the changelog clean
+          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false}]'
+
+  # 2. POST-RELEASE ACTIONS (Runs only if a release was just created)
+  post-release:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      # OPTIONAL: Sync version to app.json for Expo
+      # Since release-please updated package.json, we can sync it to app.json here
+      - name: Sync version to app.json
+        run: |
+          # Uses jq to copy version from package.json to app.json
+          VERSION=${{ needs.release-please.outputs.tag_name }}
+          # Strip 'v' prefix
+          CLEAN_VERSION=${VERSION#v}
+          
+          echo "Syncing version $CLEAN_VERSION to app.json"
+          
+          # Update app.json (requires jq installed on runner, which is standard)
+          jq --arg v "$CLEAN_VERSION" '.expo.version = $v' app.json > app.json.tmp && mv app.json.tmp app.json
+          
+          # Commit this specific change back to the repo (optional, but good for consistency)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add app.json
+          git commit -m "chore: sync app.json version to $CLEAN_VERSION"
+          git push origin main
+
+      # 3. SLACK NOTIFICATION
+      # EAS builds are now handled by the dedicated eas-deploy.yaml workflow
+      - name: Send Slack Notification
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_GIT_TAGS }}
+          SLACK_TITLE: "🚀 New Release: ${{ needs.release-please.outputs.tag_name }}"
+          SLACK_MESSAGE: |
+            *Repository:* `${{ github.repository }}`
+            *Version:* `${{ needs.release-please.outputs.tag_name }}`
+            *Changelog:* See the release page for details.
+            
+            <https://github.com/${{ github.repository }}/releases/tag/${{ needs.release-please.outputs.tag_name }}|View Release>
+          SLACK_COLOR: '#2EB67D'

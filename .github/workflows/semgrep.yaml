@@ -1,0 +1,29 @@
+name: Semgrep SAST CI
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+
+jobs:
+  semgrep:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Run Semgrep SAST
+        uses: LogixDevCo/semgrep-scan@2c95b2158f236234ad4c96ee598855d44d896f33
+        with:
+          files-ignore: |
+            node_modules/*
+            Dockerfile
+            docker-compose.yml
+            testing/*
