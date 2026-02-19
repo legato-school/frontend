@@ -3,5 +3,11 @@
 # Add Python user bin to PATH for semgrep
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
+# Keep package-lock.json in sync with package.json
+if git diff --cached --name-only | grep -q '^package\.json$'; then
+  npm install
+  git add package-lock.json
+fi
+
 npx lint-staged
 semgrep scan --config auto --error --severity ERROR .
