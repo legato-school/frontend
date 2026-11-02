@@ -63,7 +63,7 @@ jobs:
       # 3. SLACK NOTIFICATION
       # EAS builds are now handled by the dedicated eas-deploy.yaml workflow
       - name: Send Slack Notification
-        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2
+        uses: rtCamp/action-slack-notify@06cc13f74fa8d4d2296c09455d91e9453e4025f4 # v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_GIT_TAGS }}
           SLACK_TITLE: "🚀 New Release: ${{ needs.release-please.outputs.tag_name }}"
